@@ -1,29 +1,27 @@
 import requests
 import os
-import json
-from bs4 import BeautifulSoup
 
 URL = "https://relief-ticket.jp/events/artist/40/127"
 
 WEBHOOK = os.environ["DISCORD_WEBHOOK"]
 
-HEADERS = {
+headers = {
     "User-Agent": "Mozilla/5.0"
 }
 
-SAVE_FILE = "last_seen.json"
+r = requests.get(URL, headers=headers)
 
-# ページ取得
-r = requests.get(URL, headers=HEADERS)
-html = r.text
+message = {
+    "content": f"""✅ Relief Ticket接続確認
 
-soup = BeautifulSoup(html, "html.parser")
+Status Code: {r.status_code}
 
-tickets = []
+URL:
+{URL}
 
-# Relief Ticket用に広めに拾う
-for item in soup.find_all(["article", "li", "div", "section"]):
+ページ長さ:
+{len(r.text)}
+"""
+}
 
-    text = item.get_text(" ", strip=True)
-
-    #
+requests.post(WEBHOOK, json=message)
