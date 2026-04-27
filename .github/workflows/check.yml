@@ -3,32 +3,14 @@ name: Ticket Monitor
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/1 * * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   run:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - run: pip install -r requirements.txt
-
-      - run: python main.py
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-
-      - name: Save Data
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add last_seen.json
-          git commit -m "update" || echo "no changes"
-          git push
+      - name: Test
+        run: echo "workflow works"
