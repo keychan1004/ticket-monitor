@@ -1,16 +1,10 @@
-name: Ticket Monitor
+name: Test Workflow
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '*/5 * * * *'
 
 jobs:
-  run:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Test
-        run: echo "workflow works"
+      - run: echo "hello"
